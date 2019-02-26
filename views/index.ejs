@@ -1,0 +1,90 @@
+ <!doctype html>
+ <html lang="en">
+   <head>
+     <title>Upload nhieu file </title>
+     <!-- Required meta tags -->
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+     <!-- dropzone css  -->
+     <link rel="stylesheet" href="/stylesheets/dropzone.css">
+   </head>
+   <body>
+       
+    <div class="container">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-3  text-center">Upload nhieu file </h1>
+          <p class="lead  text-center">Bai thuc hanh upload nhieu file va luu vào cơ sở dữ liệu mongodb</p>
+          <hr class="my-2">
+          
+          <div class="uploadoday">
+            <form id="upload-widget" method="post" action="/uploadfile" class="dropzone">
+              
+            </form>
+            <form action="/upsanpham" method="post" >
+              <div class="form-group">
+                <label for="">Tên sản phẩm </label>
+                <input type="text" name="ten" id="" class="form-control" placeholder="Tên sản phẩm " aria-describedby="helpId">
+                <small id="helpId" class="text-muted">Điền tên vào đây</small>
+              </div>
+              
+              <div class="form-group">
+                <label for="">Giá sản phẩm </label>
+                <input type="text" name="gia" id="" class="form-control" placeholder="Giá sản phẩm " aria-describedby="helpId">
+                <small id="helpId" class="text-muted">Điền giá vào đây</small>
+              </div>
+              <button type="submit" class="btn btn-danger btn-block">Up xong sản phẩm </button>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- Optional JavaScript -->
+     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+     <!-- dropzone  -->
+     <script src="/javascripts/dropzone.js"></script>
+     <script>
+     Dropzone.options.uploadWidget = {
+  paramName: 'file',
+  maxFilesize: 2, // MB
+  maxFiles: 1,
+  dictDefaultMessage: 'Kéo ảnh vào đây hoặc click để chọn file ',
+  headers: {
+    'x-csrf-token': document.querySelectorAll('meta[name=csrf-token]')[0].getAttributeNode('content').value,
+  },
+  acceptedFiles: 'image/*',
+  init: function() {
+    this.on('success', function( file, resp ){
+      console.log( file );
+      console.log( resp );
+    });
+    this.on('thumbnail', function(file) {
+      if ( file.width < 640 || file.height < 480 ) {
+        file.rejectDimensions();
+      }
+      else {
+        file.acceptDimensions();
+      }
+    });
+  },
+  accept: function(file, done) {
+    file.acceptDimensions = done;
+    file.rejectDimensions = function() {
+      done('The image must be at least 640 x 480px')
+    };
+  }
+};
+     </script>
+   </body>
+ </html>
